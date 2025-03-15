@@ -1,9 +1,3 @@
-<p align="center">
-  <a href="https://github.com/CihanTAYLAN/text-to-speech">
-    <img src="https://raw.githubusercontent.com/CihanTAYLAN/text-to-speech/main/public/logo.png" alt="Logo" width="120">
-  </a>
-</p>
-
 <h3 align="center">Text-to-Speech Converter</h3>
 
 <div align="center">
@@ -20,7 +14,7 @@
 <p align="center">
   A simple web application that converts text into speech using Google's Text-to-Speech service.
     <br>
-    <a href="https://github.com/CihanTAYLAN/text-to-speech"><strong>Explore the docs »</strong></a>
+    <a href="#features"><strong>Explore the features »</strong></a>
     <br>
     <br>
     <a href="https://cihantaylan.com">View Demo</a>
@@ -33,7 +27,8 @@
 ## Table of Contents
 
 - [About the Project](#about-the-project)
-- [Built With](#built-with)
+  - [Features](#features)
+  - [Built With](#built-with)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
@@ -46,25 +41,30 @@
 
 ## About the Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+A web application that converts text into speech using Google's Text-to-Speech service (gTTS). It provides a user-friendly interface with language selection and a modern design.
 
-Here's a blank template to get started: To avoid having to recreate everything from scratch each time, simply duplicate this repository then edit the details below.
+### Features
+
+- **Text-to-Speech Conversion**: Converts text to speech in multiple languages using gTTS.
+- **Language Selection**: Supports multiple languages for speech conversion.
+- **Modern User Interface**: Provides a responsive and visually appealing user interface using Bootstrap and Font Awesome.
+- **Loading Indicator**: Displays a loading indicator during speech conversion.
 
 ### Built With
 
 - [Node.js](https://nodejs.org/)
 - [Express](https://expressjs.com/)
-- [gTTS](https://pypi.org/project/gTTS/)
+- [gTTS](https://www.npmjs.com/package/gtts)
 - [Bootstrap](https://getbootstrap.com)
 - [Font Awesome](https://fontawesome.com/)
 
 ## Getting Started
 
-To get a local copy up and running follow these simple example steps.
+To get a local copy up and running, follow these simple steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+Make sure you have Node.js and npm installed on your system.
 
 - npm
 
@@ -80,7 +80,13 @@ npm install npm@latest -g
 git clone https://github.com/CihanTAYLAN/text-to-speech.git
 ```
 
-2.  Install NPM packages
+2.  Navigate to the project directory
+
+```sh
+cd text-to-speech
+```
+
+3.  Install NPM packages
 
 ```sh
 npm install
@@ -93,6 +99,8 @@ To run the application:
 ```sh
 npm start
 ```
+
+Open your browser and go to `http://localhost:3000` to use the application.
 
 ## Roadmap
 
