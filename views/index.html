@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>Text-to-Speech Converter</title>
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+		/>
+		<style>
+			:root {
+				--primary-color: #4361ee;
+				--secondary-color: #3f37c9;
+				--accent-color: #4895ef;
+				--background-color: #f8f9fa;
+				--card-bg-color: #ffffff;
+				--text-color: #333;
+			}
+
+			body {
+				font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+				background-color: var(--background-color);
+				color: var(--text-color);
+			}
+
+			.container {
+				max-width: 850px;
+				margin: 60px auto;
+			}
+
+			.app-card {
+				background-color: var(--card-bg-color);
+				border-radius: 16px;
+				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+				padding: 40px;
+				margin-bottom: 30px;
+			}
+
+			.app-title {
+				color: var(--primary-color);
+				font-weight: 700;
+				margin-bottom: 30px;
+				text-align: center;
+			}
+
+			.form-control,
+			.form-select {
+				border-radius: 10px;
+				padding: 12px;
+				border: 1px solid #e0e0e0;
+				background-color: #f9f9f9;
+				transition: all 0.3s ease;
+			}
+
+			.form-control:focus,
+			.form-select:focus {
+				box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.25);
+				border-color: var(--primary-color);
+				background-color: #fff;
+			}
+
+			.btn-primary {
+				background-color: var(--primary-color);
+				border-color: var(--primary-color);
+				border-radius: 10px;
+				padding: 12px 24px;
+				font-weight: 600;
+				transition: all 0.3s ease;
+			}
+
+			.btn-primary:hover,
+			.btn-primary:focus {
+				background-color: var(--secondary-color);
+				border-color: var(--secondary-color);
+				transform: translateY(-2px);
+				box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+			}
+
+			.audio-container {
+				background-color: var(--card-bg-color);
+				border-radius: 16px;
+				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+				padding: 30px;
+				margin-top: 30px;
+			}
+
+			.audio-title {
+				color: var(--accent-color);
+				font-weight: 600;
+				margin-bottom: 20px;
+			}
+
+			#audioPlayer {
+				width: 100%;
+				border-radius: 10px;
+				margin-bottom: 15px;
+			}
+
+			#transcriptionText {
+				background-color: #f5f5f5;
+				padding: 15px;
+				border-radius: 10px;
+				border-left: 4px solid var(--accent-color);
+			}
+
+			.spinner-container {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100px;
+			}
+
+			.spinner {
+				color: var(--primary-color);
+				width: 50px;
+				height: 50px;
+			}
+
+			.feature-icon {
+				background-color: rgba(67, 97, 238, 0.1);
+				color: var(--primary-color);
+				width: 50px;
+				height: 50px;
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin-right: 15px;
+				font-size: 1.25rem;
+			}
+
+			.language-container {
+				display: flex;
+				align-items: center;
+				margin-bottom: 20px;
+			}
+
+			.language-title {
+				margin-bottom: 0;
+				font-weight: 600;
+			}
+
+			@media (max-width: 768px) {
+				.app-card {
+					padding: 25px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h1 class="app-title">Text-to-Speech Converter</h1>
+
+			<div class="app-card">
+				<form id="ttsForm">
+					<div class="mb-4">
+						<label
+							for="text"
+							class="form-label fw-bold"
+							>Enter your text:</label
+						>
+						<textarea
+							class="form-control"
+							id="text"
+							rows="5"
+							required
+							placeholder="Write your text here..."
+						></textarea>
+					</div>
+
+					<div class="language-container mb-4">
+						<div class="feature-icon">
+							<i class="fas fa-language"></i>
+						</div>
+						<div class="flex-grow-1">
+							<h5 class="language-title">Select Language</h5>
+							<select
+								class="form-select mt-2"
+								id="language"
+							>
+								<option value="tr">Türkçe</option>
+								<option value="en">English</option>
+								<option value="de">Deutsch</option>
+								<option value="fr">Français</option>
+								<option value="es">Español</option>
+								<option value="it">Italiano</option>
+								<option value="ja">日本語</option>
+								<option value="ko">한국어</option>
+								<option value="ru">Русский</option>
+								<option value="zh">中文</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="text-center">
+						<button
+							type="submit"
+							class="btn btn-primary btn-lg"
+							id="convertButton"
+						>
+							<i class="fas fa-volume-up me-2"></i> Convert to Speech
+						</button>
+					</div>
+				</form>
+
+				<div
+					id="loadingContainer"
+					class="spinner-container mt-4"
+					style="display: none"
+				>
+					<div
+						class="spinner-border spinner"
+						role="status"
+					>
+						<span class="visually-hidden">Loading...</span>
+					</div>
+					<p class="ms-3 fs-5">Converting speech, please wait...</p>
+				</div>
+			</div>
+
+			<div
+				class="audio-container"
+				id="audioContainer"
+				style="display: none"
+			>
+				<h3 class="audio-title"><i class="fas fa-headphones me-2"></i> Audio File</h3>
+				<audio
+					id="audioPlayer"
+					controls
+				></audio>
+				<p
+					id="transcriptionText"
+					class="mt-2"
+				></p>
+				<div class="text-end mt-3">
+					<button
+						class="btn btn-sm btn-outline-primary"
+						id="newConversionBtn"
+					>
+						<i class="fas fa-plus me-1"></i> New Conversion
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			document.getElementById("ttsForm").addEventListener("submit", async function (e) {
+				e.preventDefault();
+
+				// Form and button elements
+				const form = document.getElementById("ttsForm");
+				const convertButton = document.getElementById("convertButton");
+				const loadingContainer = document.getElementById("loadingContainer");
+
+				// Get text and language values
+				const text = document.getElementById("text").value;
+				const language = document.getElementById("language").value;
+
+				// Audio container and related elements
+				const audioContainer = document.getElementById("audioContainer");
+				const audioPlayer = document.getElementById("audioPlayer");
+				const transcriptionText = document.getElementById("transcriptionText");
+
+				// Show loading state, disable button
+				convertButton.disabled = true;
+				loadingContainer.style.display = "flex";
+
+				try {
+					const response = await fetch("/convert", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({ text, language }),
+					});
+
+					const data = await response.json();
+
+					if (data.success) {
+						// Hide loading, show audio file
+						loadingContainer.style.display = "none";
+
+						// Update audio player
+						audioPlayer.src = data.file;
+						transcriptionText.textContent = data.text;
+						audioContainer.style.display = "block";
+
+						// Hide form area and show audio player
+						form.parentElement.style.display = "none";
+						audioPlayer.play();
+					} else {
+						// Hide loading and show error on failure
+						loadingContainer.style.display = "none";
+						convertButton.disabled = false;
+						alert("Error: " + data.error);
+					}
+				} catch (error) {
+					// Hide loading, show error message
+					loadingContainer.style.display = "none";
+					convertButton.disabled = false;
+					console.error("Error:", error);
+					alert("An error occurred: " + error.message);
+				}
+			});
+
+			// New conversion button function
+			document.getElementById("newConversionBtn").addEventListener("click", function () {
+				// Show form section
+				document.getElementById("ttsForm").parentElement.style.display = "block";
+				document.getElementById("convertButton").disabled = false;
+
+				// Hide audio container
+				document.getElementById("audioContainer").style.display = "none";
+
+				// Clear text field
+				document.getElementById("text").value = "";
+			});
+		</script>
+	</body>
+</html>
